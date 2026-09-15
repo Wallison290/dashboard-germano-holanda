@@ -1,8 +1,8 @@
-# Dashboard Estratégico — Imobiliária Germano Holanda
+# Dashboard Estratégico da Imobiliária Germano Holanda
 
 Manual estratégico de posicionamento digital do perfil
 [@imobiliariagermanoholanda](https://instagram.com/imobiliariagermanoholanda)
-(imóveis de médio e alto padrão — João Pessoa e Cabedelo/PB — CRECI 640J).
+(imóveis de médio e alto padrão, João Pessoa e Cabedelo/PB, CRECI 640J).
 
 Site estático de página única (`index.html`), sem dependências e sem build.
 
@@ -44,7 +44,7 @@ A análise do site é de observação visual da experiência no celular. Não in
 velocidade, teste em múltiplos aparelhos nem leitura do código.
 
 As marcações de post e os números digitados ficam salvos apenas no navegador de quem acessa
-(`localStorage`). Não são enviados a lugar nenhum e não aparecem em outro aparelho — por isso a
+(`localStorage`). Não são enviados a lugar nenhum e não aparecem em outro aparelho. Por isso a
 página oferece o download da planilha.
 
 ## Publicação
