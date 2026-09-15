@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2f2d27">
+<title>Germano Holanda | Dashboard Estratégico</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
+
+:root{
+  --brand:#8c6f17;
+  --brand-dark:#2f2d27;
+  --brand-mid:#ba962c;
+  --brand-soft:#e7ca74;
+  --brand-wash:#f8f3e2;
+  --paper:#faf9f5;
+  --white:#fff;
+  --ink:#1f1d19;
+  --muted:#736f64;
+  --line:#e9e6dd;
+  --green:#3f6b58;
+  --green-bg:#edf4f0;
+  /* "amber" mantém o nome da classe, mas vira terracota: âmbar sumiria dentro do dourado da marca */
+  --amber:#9a4b2e;
+  --amber-bg:#fbf0ec;
+  --shadow:0 8px 30px rgba(40,35,21,.07);
+  --radius:20px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"DM Sans",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+button,input,select,textarea{font:inherit}
+button,a,input,select,summary{ -webkit-tap-highlight-color:transparent}
+button,a{touch-action:manipulation}
+button{cursor:pointer}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+button:focus-visible,a:focus-visible,input:focus-visible,
+select:focus-visible,summary:focus-visible{
+  outline:3px solid var(--brand);
+  outline-offset:4px;
+}
+.hero :focus-visible,.sidebar :focus-visible{outline-color:var(--brand-soft)}
+button:disabled{cursor:default}
+h1,h2,h3,h4{
+  font-family:"Poppins","Trebuchet MS",sans-serif;
+  line-height:1.3;
+  margin:0;
+}
+h1{font-size:clamp(30px,3.5vw,46px);letter-spacing:-1.7px;font-weight:600}
+h2{font-size:26px;letter-spacing:-.8px;font-weight:600}
+h3{font-size:18px;letter-spacing:-.3px;font-weight:600}
+h4{font-size:15px;font-weight:600}
+p{margin:0 0 16px}
+p:last-child{margin-bottom:0}
+strong{font-weight:700}
+ul,ol{margin:12px 0;padding-left:22px}
+li{padding-left:3px;margin:7px 0}
+li::marker{color:var(--brand-mid)}
+[hidden]{display:none!important}
+.skip{
+  position:fixed;left:20px;top:-100px;background:#fff;
+  color:var(--brand);padding:12px;z-index:100;
+}
+.skip:focus{top:12px}
+.sidebar{
+  position:fixed;inset:0 auto 0 0;width:260px;
+  background:var(--white);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;padding:32px 22px 22px;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:12px;margin:0 4px 35px}
+.monogram{
+  width:45px;height:45px;flex-shrink:0;border-radius:50%;
+  background:var(--brand-wash);color:var(--brand);
+  display:grid;place-items:center;font-family:Georgia,serif;
+  font-size:23px;font-style:italic;border:1px solid #efe8d1;
+}
+.brand-name{font-family:"Poppins",sans-serif;font-size:15px;font-weight:600}
+.brand-sub{font-size:10px;text-transform:uppercase;letter-spacing:1.7px;color:var(--muted)}
+.nav-label,.eyebrow{
+  font-size:10px;text-transform:uppercase;letter-spacing:2px;
+  font-weight:700;color:var(--muted);
+}
+.nav-label{margin:0 13px 12px}
+.nav{display:grid;gap:5px}
+.nav a{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 13px;border-radius:11px;color:var(--muted);
+  font-size:13px;font-weight:500;line-height:1.4;
+}
+.nav a:hover{background:var(--paper);text-decoration:none}
+.nav a.active{background:var(--brand-wash);color:var(--brand-dark);font-weight:700}
+.nav-number{font-size:10px;opacity:.75;min-width:18px}
+.sidebar-footer{
+  margin-top:auto;padding:20px 13px 0;border-top:1px solid var(--line);
+}
+.sidebar-footer p{font-size:12px;color:var(--muted);line-height:1.65}
+.sidebar-footer strong{color:var(--brand-dark)}
+.palette{display:flex;gap:5px;margin-bottom:12px}
+.palette i{height:7px;width:30px;border-radius:8px;background:var(--brand-dark)}
+.palette i:nth-child(2){background:var(--brand)}
+.palette i:nth-child(3){background:var(--brand-mid)}
+.palette i:nth-child(4){background:var(--brand-soft)}
+.app{margin-left:260px;min-height:100vh}
+.topbar{
+  position:sticky;top:0;z-index:25;
+  min-height:78px;padding:16px 40px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  background:rgba(250,249,245,.96);border-bottom:1px solid var(--line);
+  backdrop-filter:blur(12px);
+}
+.breadcrumb{font-size:12px;color:var(--muted)}
+.breadcrumb strong{color:var(--brand-dark);font-weight:500}
+.top-actions{display:flex;align-items:center;gap:10px}
+.search-wrap{position:relative}
+.search-wrap input{
+  width:270px;padding:10px 14px;border:1px solid var(--line);
+  background:var(--white);border-radius:10px;font-size:12px;color:var(--ink);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:8px;padding:10px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--white);color:var(--brand-dark);font-size:12px;font-weight:700;
+  line-height:1.5;text-decoration:none;
+}
+.btn:hover{background:var(--brand-wash);text-decoration:none}
+.btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn.primary:hover{background:var(--brand-dark)}
+.mobile-menu{display:none}
+.content{max-width:1480px;margin:auto;padding:38px 40px 60px}
+.page{animation:appear .2s ease}
+@keyframes appear{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+.page-heading{margin-bottom:28px}
+.page-heading .eyebrow{margin-bottom:9px;color:var(--brand)}
+.page-heading p{margin-top:12px;color:var(--muted);max-width:820px}
+.section-header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:19px}
+.section-header p{font-size:12px;color:var(--muted);margin:0}
+.card{
+  background:var(--white);border:1px solid var(--line);
+  border-radius:var(--radius);padding:27px;box-shadow:var(--shadow);
+  min-width:0;margin-bottom:22px;
+}
+.card h3{margin-bottom:14px}
+.card h4{margin:20px 0 10px}
+.card .eyebrow{margin-bottom:10px}
+.grid{display:grid;gap:20px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid>.card{margin-bottom:0}
+.grid-spaced{margin-bottom:22px}
+.hero{
+  position:relative;overflow:hidden;background:var(--brand-dark);color:#fff;
+  border:none;min-height:280px;padding:36px;
+}
+.hero::after{
+  content:"";position:absolute;width:340px;height:340px;border-radius:50%;
+  right:-160px;top:-120px;border:55px solid rgba(231,202,116,.09);pointer-events:none;
+}
+.hero .eyebrow{color:#efe7cc}
+.hero h2{max-width:760px;font-size:clamp(25px,2.6vw,36px);line-height:1.35;margin:12px 0 17px}
+.hero p{color:#eee8d8;max-width:840px}
+.hero .tag{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.1);color:#fff}
+.tag{
+  display:inline-flex;align-items:center;padding:4px 10px;
+  border:1px solid #efe9d7;background:#faf8ef;color:var(--brand);
+  border-radius:7px;font-size:10px;font-weight:700;line-height:1.6;
+}
+.tag.green{background:var(--green-bg);color:var(--green);border-color:#dbeae2}
+.tag.amber{background:var(--amber-bg);color:var(--amber);border-color:#f0dcd3}
+.tag.neutral{background:var(--paper);color:var(--muted);border-color:var(--line)}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px}
+.stat{padding:23px}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-value{
+  display:block;font-family:"Poppins",sans-serif;font-size:32px;
+  line-height:1.3;letter-spacing:-1px;color:var(--brand-dark);margin:9px 0;
+}
+.stat-note{font-size:11px;line-height:1.6;color:var(--muted)}
+.note{
+  background:#faf7f0;border:1px solid #f3eddd;border-radius:12px;
+  padding:17px 19px;font-size:13px;line-height:1.75;margin:17px 0;
+}
+.note:last-child{margin-bottom:0}
+.note.neutral{background:#f8f8f7;border-color:var(--line)}
+.note.amber{background:var(--amber-bg);border-color:#eeddd4}
+.small{font-size:12px;color:var(--muted)}
+.profile-facts{display:grid;grid-template-columns:155px 1fr;gap:10px 18px;margin:0}
+.profile-facts dt{color:var(--muted);font-size:12px}
+.profile-facts dd{margin:0;font-size:13px;overflow-wrap:anywhere}
+.steps{counter-reset:step;list-style:none;padding:0;margin:0}
+.steps li{
+  position:relative;counter-increment:step;padding:15px 0 15px 45px;
+  margin:0;border-bottom:1px solid var(--line);
+}
+.steps li:last-child{border-bottom:none}
+.steps li::before{
+  content:counter(step,decimal-leading-zero);position:absolute;left:0;top:17px;
+  font-family:"Poppins",sans-serif;font-size:12px;color:var(--brand);
+}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{
+  background:#faf7f0;font-size:10px;text-transform:uppercase;
+  letter-spacing:.7px;text-align:left;color:var(--brand-dark);padding:15px 17px;
+}
+td{padding:17px;border-top:1px solid var(--line);vertical-align:top;line-height:1.7}
+td:first-child{font-weight:600;color:var(--brand-dark)}
+table.wide{min-width:800px}
+table.medium{min-width:620px}
+.pillar{border-top:3px solid var(--brand-soft);padding:22px}
+.pillar.critical{border-top-color:var(--brand)}
+.pillar h3{font-size:16px;margin:11px 0}
+.pillar p{font-size:13px;color:var(--muted)}
+.priority{
+  display:grid;grid-template-columns:140px 1fr;gap:23px;
+  padding:24px 0;border-bottom:1px solid var(--line);
+}
+.priority:first-of-type{padding-top:10px}
+.priority:last-child{border-bottom:0;padding-bottom:0}
+.priority h4{margin:0 0 13px}
+.priority p{font-size:13px;margin-bottom:9px}
+.priority-side .tag{margin-top:8px}
+.competitor-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.competitor-head h3{font-size:16px;overflow-wrap:anywhere}
+.competitor-stats{display:flex;gap:28px;margin:15px 0 22px}
+.competitor-stats strong{display:block;font-family:"Poppins",sans-serif;font-size:23px;color:var(--brand-dark)}
+.competitor-stats span{font-size:11px;color:var(--muted)}
+.competitor-content{display:grid;grid-template-columns:1.2fr 1fr;gap:25px}
+.competitor-content h4{margin-top:0}
+.competitor-content ul{font-size:13px}
+.sequence{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.sequence span{background:var(--brand-wash);color:var(--brand-dark);padding:6px 11px;border-radius:8px;font-size:12px}
+.copy-area{
+  white-space:pre-wrap;background:#f9f7f0;border:1px solid #f4eedd;
+  padding:23px;border-radius:14px;font-family:inherit;font-size:14px;
+  color:var(--brand-dark);line-height:1.9;overflow-wrap:anywhere;
+}
+.copy-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:17px}
+.copy-heading h3{margin:0}
+.highlight-item{display:grid;grid-template-columns:47px 1fr;gap:16px;padding:19px 0;border-bottom:1px solid var(--line)}
+.highlight-item:last-child{border-bottom:0;padding-bottom:0}
+.highlight-number{
+  width:42px;height:42px;border-radius:50%;background:var(--brand-wash);
+  display:grid;place-items:center;font-size:12px;color:var(--brand);
+}
+.highlight-item h4{margin:0 0 7px}
+.highlight-item p{font-size:13px;color:var(--muted)}
+.mix-bar{display:flex;height:20px;overflow:hidden;border-radius:7px;margin:22px 0}
+.mix-bar span:nth-child(1){background:var(--brand-dark)}
+.mix-bar span:nth-child(2){background:var(--brand)}
+.mix-bar span:nth-child(3){background:var(--brand-soft)}
+.mix-key{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.mix-key strong{display:block;color:var(--brand-dark);font-size:24px;font-family:"Poppins",sans-serif}
+.mix-key b{font-size:12px}
+.mix-key p{font-size:11px;color:var(--muted)}
+.filters{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  background:#fff;border:1px solid var(--line);padding:16px;border-radius:14px;margin-bottom:22px;
+}
+.filter-group{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.filter{
+  border:0;background:transparent;border-radius:8px;padding:8px 12px;
+  color:var(--muted);font-size:12px;font-weight:600;
+}
+.filter.active{background:var(--brand);color:#fff}
+select{
+  background:var(--white);border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;font-size:12px;color:var(--ink);max-width:100%;
+}
+.week-header{margin:28px 0 18px}
+.week-header .eyebrow{color:var(--brand);margin-bottom:7px}
+.week-header h3{font-size:19px}
+.post{
+  padding:0;overflow:hidden;
+  background:var(--white);border:1px solid var(--line);
+  border-radius:16px;margin:0 0 16px;box-shadow:var(--shadow);
+}
+.post summary{list-style:none;cursor:pointer;padding:23px 25px;display:flex;gap:20px;align-items:flex-start}
+.post summary::-webkit-details-marker{display:none}
+.post summary::marker{content:""}
+.post-number{
+  min-width:45px;height:45px;display:grid;place-items:center;
+  background:var(--brand-wash);border-radius:12px;
+  color:var(--brand);font-family:"Poppins",sans-serif;font-size:16px;
+}
+.post-summary{flex:1;min-width:0}
+.post-summary h4{font-size:16px;margin-top:10px;line-height:1.55}
+.post-topline{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.post-day{font-size:11px;color:var(--muted)}
+.detail-label{font-size:10px;color:var(--brand);padding-top:12px;white-space:nowrap}
+.post[open] .detail-label{font-size:0}
+.post[open] .detail-label::after{content:"Fechar";font-size:10px}
+.post-body{padding:0 25px 25px;border-top:1px solid var(--line)}
+.post-meta{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
+.meta-box{background:var(--paper);padding:16px;border-radius:10px}
+.meta-label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:7px;font-weight:700}
+.meta-box p{font-size:13px}
+.post-caption{
+  background:#fdfdfc;border:1px solid var(--line);border-radius:12px;
+  padding:23px;line-height:1.9;font-size:14px;white-space:pre-wrap;
+}
+.post-footer{display:grid;grid-template-columns:1fr 1fr;gap:19px;margin-top:19px}
+.post-footer p{font-size:13px}
+.post-status{padding-top:17px;margin-top:20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.post-status label{font-size:12px;color:var(--muted)}
+.empty{padding:30px;background:#fff;border:1px dashed #e7e0ca;border-radius:15px;text-align:center;color:var(--muted)}
+.search-status{background:var(--brand-wash);color:var(--brand-dark);padding:13px 18px;border-radius:12px;margin-bottom:22px;font-size:13px}
+.metric-input{
+  width:100%;min-width:80px;border:1px solid var(--line);border-radius:8px;
+  padding:8px 9px;color:var(--brand-dark);background:#fff;font-size:13px;
+}
+.progress-shell{height:6px;background:var(--brand-wash);border-radius:10px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;width:0;background:var(--brand);transition:width .2s}
+.execution-row{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.footer{padding-top:25px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.toast{
+  position:fixed;bottom:25px;left:calc(50% + 130px);transform:translateX(-50%);
+  z-index:100;background:var(--brand-dark);color:#fff;padding:12px 20px;
+  border-radius:12px;box-shadow:0 10px 40px rgba(31,29,25,.12);font-size:13px;max-width:90%;
+}
+.scrim{display:none}
+.notes-area{width:100%;min-height:100px;resize:vertical;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;color:var(--ink)}
+.muted{color:var(--muted)}
+@media(min-width:1700px){
+  .content{padding-top:45px}
+  body{font-size:16px}
+}
+@media(max-width:1180px){
+  .sidebar{width:225px;padding:28px 15px}
+  .app{margin-left:225px}
+  .content{padding:30px 25px 50px}
+  .topbar{padding:15px 25px}
+  .grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .toast{left:calc(50% + 112px)}
+}
+@media(max-width:900px){
+  .grid.two,.grid.three,.competitor-content{grid-template-columns:1fr}
+  .search-wrap input{width:220px}
+  .breadcrumb{display:none}
+  .top-actions{flex:1;justify-content:flex-end}
+  .card{padding:23px}
+  .hero{padding:28px}
+  .priority{grid-template-columns:115px 1fr}
+}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%);width:270px;transition:transform .2s}
+  body.menu-open .sidebar{transform:translateX(0)}
+  body.menu-open .scrim{display:block;position:fixed;inset:0;background:#342c1460;z-index:35;border:0}
+  .app{margin-left:0}
+  .mobile-menu{display:inline-flex}
+  .topbar{padding:12px 16px;min-height:66px;gap:10px}
+  .top-actions{gap:7px}
+  .search-wrap{flex:1}
+  .search-wrap input{width:100%;min-width:0}
+  .top-actions .print-btn{display:none}
+  .content{padding:26px 16px 40px}
+  .page-heading{margin-bottom:22px}
+  .page-heading p{font-size:13px}
+  .hero{padding:25px}
+  .hero h2{font-size:27px}
+  .card{padding:21px;border-radius:16px}
+  .grid{gap:12px}
+  .stat{padding:18px}
+  .stat-value{font-size:28px}
+  .stat-label{font-size:11px}
+  .profile-facts{grid-template-columns:1fr;gap:3px}
+  .profile-facts dd{margin-bottom:11px}
+  .priority{grid-template-columns:1fr;gap:11px}
+  .priority-side{display:flex;align-items:center;gap:10px}
+  .priority-side .tag{margin:0}
+  .post summary{padding:18px 16px;gap:12px}
+  .post-number{min-width:34px;height:34px;font-size:12px;border-radius:9px}
+  .detail-label{display:none}
+  .post-summary h4{font-size:14px}
+  .post-body{padding:0 16px 20px}
+  .post-meta,.post-footer{grid-template-columns:1fr}
+  .post-caption{padding:17px;font-size:13px}
+  .mix-key{gap:10px}
+  .mix-key b{font-size:11px}
+  .section-header{align-items:flex-start;flex-wrap:wrap}
+  .copy-heading{align-items:flex-start}
+  .copy-heading h3{font-size:16px}
+  .toast{left:50%;width:max-content;max-width:90%}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+@media print{
+  body{background:#fff;font-size:11px}
+  .sidebar,.topbar,.filters,.btn,.post-status,.toast,.scrim,.search-status,.footer,.tracker-tools{display:none!important}
+  .app{margin:0}
+  .content{padding:0;max-width:none}
+  .page{display:block!important;animation:none;page-break-before:always}
+  .page:first-of-type{page-break-before:auto}
+  .page-heading{margin:20px 0}
+  .card,.post{box-shadow:none;break-inside:avoid;margin-bottom:16px}
+  .card{padding:18px}
+  .hero{background:#fbf7ea;color:#1f1d19;min-height:auto}
+  .hero p,.hero .eyebrow{color:#2f2d27}
+  .hero::after{display:none}
+  .hero .tag{color:#2f2d27;border-color:#ddd}
+  .table-wrap{overflow:visible}
+  table.wide,table.medium{min-width:0}
+  table{font-size:10px}
+  td,th{padding:9px}
+  .grid.four{grid-template-columns:repeat(4,1fr)}
+  .post-body{display:block!important}
+  .post summary{padding:16px}
+  .detail-label{display:none}
+  .post-caption{white-space:pre-wrap}
+  .copy-area{white-space:pre-wrap}
+  a{color:inherit;text-decoration:none}
+  h1{font-size:29px}
+  h2{font-size:22px}
+  .metric-input{border:none;padding:0}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Ir para o conteúdo</a>
+<button class="scrim" aria-label="Fechar menu"></button>
+
+<aside class="sidebar" aria-label="Navegação principal">
+  <div class="brand">
+    <div class="monogram" aria-hidden="true">Gh</div>
+    <div>
+      <div class="brand-name">Germano Holanda</div>
+      <div class="brand-sub">Plano de crescimento</div>
+    </div>
+  </div>
+
+  <div class="nav-label">O que tem aqui</div>
+  <nav class="nav">
+    <a href="#visao" data-page="visao" class="active" aria-current="page"><span class="nav-number">01</span>Resumo do plano</a>
+    <a href="#diagnostico" data-page="diagnostico"><span class="nav-number">02</span>Como o perfil está hoje</a>
+    <a href="#site" data-page="site"><span class="nav-number">03</span>O site no celular</a>
+    <a href="#estrategia" data-page="estrategia"><span class="nav-number">04</span>O que mudar no perfil</a>
+    <a href="#calendario" data-page="calendario"><span class="nav-number">05</span>Calendário de posts</a>
+    <a href="#metricas" data-page="metricas"><span class="nav-number">06</span>Números para acompanhar</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="palette" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p><strong>João Pessoa e Cabedelo · PB</strong><br>CRECI 640J<br>Plano de 30 dias</p>
+  </div>
+</aside>
+
+<div class="app">
+  <header class="topbar">
+    <button class="btn mobile-menu" aria-expanded="false" aria-label="Abrir menu">Menu</button>
+    <div class="breadcrumb">Plano de crescimento <strong id="current-page">/ Resumo do plano</strong></div>
+    <div class="top-actions">
+      <div class="search-wrap">
+        <label for="global-search" class="skip">Buscar no material</label>
+        <input type="search" id="global-search" placeholder="Buscar no material..." autocomplete="off" aria-label="Buscar no material">
+      </div>
+      <button class="btn print-btn" id="print">Imprimir</button>
+    </div>
+  </header>
+
+  <main class="content" id="main" tabindex="-1">
+    <div id="search-status" class="search-status" role="status" hidden></div>
+    <div id="search-empty" class="empty" hidden>Nada encontrado. Tente outra palavra.</div>
+
+    <section class="page" id="visao" data-title="Resumo do plano">
+      <header class="page-heading">
+        <div class="eyebrow">Planejamento · 30 dias</div>
+        <h1>Tamanho já tem. Falta caminho.</h1>
+        <p>Um plano para transformar a audiência que a imobiliária já construiu em conversas sobre imóveis.</p>
+      </header>
+
+      <article class="card hero searchable">
+        <div class="tag-row">
+          <span class="tag">Objetivo principal</span>
+          <span class="tag">Plano de 30 dias</span>
+        </div>
+        <h2>Encurtar o caminho entre conhecer a Germano Holanda e iniciar uma conversa sobre comprar, vender ou anunciar um imóvel.</h2>
+        <p>Olhando tudo o que o perfil e o site mostram hoje, é este o objetivo que a presença digital precisa cumprir.</p>
+        <p><strong>Por que chegamos a essa conclusão:</strong> a audiência já existe (11,1 mil seguidores e 6.185 publicações), a especialização está clara na bio e o CRECI está visível. O que não está resolvido é o que a pessoa faz depois de chegar: a bio manda "visite nosso site" sem dizer para quê, o link passa por uma página intermediária, os destaques não cobrem financiamento nem imóvel sob encomenda, e o site no celular entrega uma experiência mais bagunçada do que o Instagram promete.</p>
+      </article>
+
+      <div class="grid four grid-spaced searchable">
+        <article class="card stat">
+          <span class="stat-label">Seguidores</span>
+          <strong class="stat-value">11,1 mil</strong>
+          <span class="stat-note">Número visto no dia da análise</span>
+        </article>
+        <article class="card stat">
+          <span class="stat-label">Posts já publicados</span>
+          <strong class="stat-value">6.185</strong>
+          <span class="stat-note">Histórico longo, perfil consolidado</span>
+        </article>
+        <article class="card stat">
+          <span class="stat-label">Destaques ativos</span>
+          <strong class="stat-value">7</strong>
+          <span class="stat-note">Cobrem parte da jornada, não toda</span>
+        </article>
+        <article class="card stat">
+          <span class="stat-label">Posts planejados</span>
+          <strong class="stat-value">12</strong>
+          <span class="stat-note">3 por semana, durante 4 semanas</span>
+        </article>
+      </div>
+
+      <article class="card searchable">
+        <div class="eyebrow">Sobre o perfil</div>
+        <dl class="profile-facts">
+          <dt>Perfil analisado</dt><dd>@imobiliariagermanoholanda</dd>
+          <dt>Site</dt><dd>germanoholanda.com.br</dd>
+          <dt>Área de atuação</dt><dd>Intermediação de imóveis de médio e alto padrão · CRECI 640J</dd>
+          <dt>Cidades</dt><dd>João Pessoa e Cabedelo, PB (Cabo Branco, Manaíra, Tambaú e Bessa)</dd>
+          <dt>No mercado desde</dt><dd>2006</dd>
+          <dt>O que foi analisado</dt><dd>Bio, 7 destaques, 9 últimos posts do feed e o site no celular</dd>
+        </dl>
+      </article>
+
+      <div class="grid two grid-spaced">
+        <article class="card searchable">
+          <div class="eyebrow">01 · Resumo</div>
+          <h3>O problema não é falta de informação. É organização.</h3>
+          <p>A empresa tem tempo de mercado, especialização declarada, CRECI visível, presença em imprensa, participação em eventos do setor e um site com busca de imóveis, financiamento e imóvel sob encomenda. <strong>Quase tudo o que um cliente precisa saber já existe</strong> — só não está no lugar onde ele procura. Os motivos:</p>
+          <ul>
+            <li>A bio diz quem a empresa é, mas termina em "Visite nosso site", sem dizer o que a pessoa vai encontrar lá;</li>
+            <li>O link da bio passa por uma página intermediária antes de chegar ao site oficial;</li>
+            <li>Os 7 destaques não cobrem financiamento, imóvel sob encomenda nem um caminho de contato;</li>
+            <li>Nos 9 últimos posts, datas comemorativas e conteúdo institucional dividem espaço com o que realmente sustenta o posicionamento;</li>
+            <li>O site no celular está mais desorganizado do que a comunicação do Instagram sugere.</li>
+          </ul>
+        </article>
+
+        <article class="card searchable">
+          <div class="eyebrow">Onde está a maior oportunidade</div>
+          <h3>Alinhar Instagram e site.</h3>
+          <p>A audiência já foi conquistada. O que falta é fazer os dois canais contarem a mesma história, na mesma ordem:</p>
+          <ol class="steps">
+            <li><strong>Trocar a bio e o link</strong>: uma chamada que diz a ação ("Fale com a gente") e um link que vai direto ao destino, sem página intermediária.</li>
+            <li><strong>Reorganizar os destaques como um caminho</strong>: quem somos, como funciona, financiamento e imóvel sob encomenda, negócios fechados e contato.</li>
+            <li><strong>Redistribuir o conteúdo do feed</strong>, dando prioridade a autoridade, prova de resultado e explicação de serviço, em vez de datas comemorativas.</li>
+            <li><strong>Revisar o site no celular</strong>, que hoje é o ponto onde a percepção de médio e alto padrão se perde.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="diagnostico" data-title="Como o perfil está hoje" hidden>
+      <header class="page-heading">
+        <div class="eyebrow">02 · Como o perfil está hoje</div>
+        <h1>O que precisa melhorar.</h1>
+        <p>O que já está bom, o que está travando e por onde começar.</p>
+      </header>
+
+      <article class="card searchable">
+        <h3>2.1 Item por item</h3>
+        <div class="table-wrap">
+          <table class="wide">
+            <thead><tr><th>Item analisado</th><th>Como está hoje</th><th>O que isso significa</th></tr></thead>
+            <tbody>
+              <tr><td>Posts publicados</td><td>6.185 posts</td><td>Histórico muito extenso. Quem chega vê uma empresa ativa há anos e confia mais.</td></tr>
+              <tr><td>Seguidores</td><td>11,1 mil seguidores</td><td>Base sólida e consolidada para a região. O desafio não é alcance, é direção.</td></tr>
+              <tr><td>Identidade visual</td><td>Preto e dourado com logotipo aplicado de forma consistente</td><td><strong>Ponto forte.</strong> A marca é reconhecível no feed. Isso não precisa mudar.</td></tr>
+              <tr><td>Bio (texto do perfil)</td><td>Especialização, tempo de mercado, cidades e CRECI 640J</td><td>Informa bem quem a empresa é. <strong>Atenção:</strong> termina em "Visite nosso site", que não diz qual ação a pessoa pode realizar.</td></tr>
+              <tr><td>Link da bio</td><td>Passa por uma página intermediária antes do site oficial</td><td>Cada toque a mais é gente que desiste no caminho.</td></tr>
+              <tr><td>Destaques</td><td>7 pastas: Casas Cond., Vendido, Clientes, Negócio Fechado, Dicas, Quem somos, Anuncie aqui</td><td>Cobrem apresentação e resultado. Não cobrem financiamento, imóvel sob encomenda nem contato — serviços que existem no site.</td></tr>
+              <tr><td>Últimos 9 posts</td><td>Institucional, apresentação profissional, imprensa, evento do setor, datas comemorativas e imóveis</td><td>Há autoridade real (imprensa e evento), mas ela divide espaço com conteúdo comemorativo. Não há prova social de cliente nem explicação dos serviços.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <div class="searchable">
+        <div class="section-header">
+          <div>
+            <h3>2.2 As quatro etapas até o cliente entrar em contato</h3>
+            <p>Ninguém sai de "nunca ouvi falar" para "quero visitar esse imóvel" de uma vez. São quatro passos, e o importante é saber em qual deles as pessoas estão parando.</p>
+          </div>
+        </div>
+        <div class="grid four grid-spaced">
+          <article class="card pillar">
+            <span class="eyebrow">Passo 01</span>
+            <h3>Ser encontrada</h3>
+            <span class="tag green">Já está resolvido</span>
+            <p style="margin-top:12px">11,1 mil seguidores e 6.185 publicações. A empresa é encontrada, é reconhecida e tem presença em imprensa e em eventos do setor.</p>
+            <p class="small">No meio do marketing, chamam isso de <em>atração</em>.</p>
+          </article>
+          <article class="card pillar">
+            <span class="eyebrow">Passo 02</span>
+            <h3>Criar confiança</h3>
+            <span class="tag neutral">Falta a voz do cliente</span>
+            <p style="margin-top:12px">A credibilidade aparece pelo lado da empresa (tempo de mercado, CRECI, imprensa), mas quase não aparece pelo lado de quem já comprou ou vendeu com ela.</p>
+            <p class="small">No meio do marketing, chamam isso de <em>conexão</em>.</p>
+          </article>
+          <article class="card pillar">
+            <span class="eyebrow">Passo 03</span>
+            <h3>Prender a atenção</h3>
+            <span class="tag neutral">Visual forte, objetivo disperso</span>
+            <p style="margin-top:12px">O preto e dourado deixa o post reconhecível, mas o feed alterna entre marca, relacionamento, imóvel e autoridade sem um eixo predominante.</p>
+            <p class="small">No meio do marketing, chamam isso de <em>retenção</em>.</p>
+          </article>
+          <article class="card pillar critical">
+            <span class="eyebrow">Passo 04</span>
+            <h3>Fazer o cliente entrar em contato</h3>
+            <span class="tag">É aqui que trava</span>
+            <p style="margin-top:12px">"Visite nosso site" não diz o que fazer, o link tem uma parada no meio do caminho e o site no celular recebe essa pessoa de forma desorganizada.</p>
+            <p class="small">No meio do marketing, chamam isso de <em>conversão</em>.</p>
+          </article>
+        </div>
+      </div>
+
+      <article class="card searchable">
+        <h3>O que o perfil comunica hoje</h3>
+        <p>O perfil comunica com clareza uma imobiliária especializada em imóveis de médio e alto padrão em João Pessoa e Cabedelo, falando com quem já está em alguma etapa da decisão — comprando, vendendo ou investindo. Essa base de posicionamento está definida. O que falta é apresentá-la com a mesma consistência em toda a comunicação.</p>
+        <h4>Onde a autoridade aparece</h4>
+        <p>Tempo de mercado desde 2006, CRECI 640J visível na bio, participação em evento do setor imobiliário e presença em matéria de imprensa. São sinais fortes e verdadeiros — mas estão distribuídos entre publicações isoladas, sem um lugar fixo onde quem chega possa encontrá-los.</p>
+        <h4>O que falta nos 9 últimos posts</h4>
+        <p>Não há presença expressiva de prova social de clientes, nem conteúdo que explique com profundidade os serviços: como funciona a compra, a venda, o financiamento, o imóvel sob encomenda. Uma parcela relevante das publicações recentes está ligada a datas comemorativas e conteúdo institucional.</p>
+        <h4>A diferença entre o Instagram e o site</h4>
+        <p>O Instagram mantém uma identidade visual controlada, associada a médio e alto padrão. O site no celular apresenta uma aparência mais simples e menos organizada. Como boa parte dos acessos vindos de Instagram, Google e WhatsApp acontece pelo celular, essa diferença quebra a continuidade da primeira impressão.</p>
+      </article>
+
+      <article class="card searchable">
+        <h3>2.3 Por onde começar</h3>
+
+        <div class="priority">
+          <div class="priority-side"><span class="eyebrow">Prioridade nº 1</span><br><span class="tag">Pode fazer hoje</span></div>
+          <div>
+            <h4>Trocar a bio e o link</h4>
+            <p><strong>O que observamos:</strong> a bio termina em "Visite nosso site" e o link passa por uma página intermediária antes de chegar ao site oficial.</p>
+            <p><strong>O que isso custa:</strong> a pessoa entendeu quem é a empresa, mas não sabe o que vai fazer no próximo toque — e ainda precisa de um toque a mais para chegar lá.</p>
+            <p><strong>O que fazer e quando:</strong> substituir pela bio pronta da página 04 e apontar o link direto para o destino, hoje mesmo.</p>
+          </div>
+        </div>
+
+        <div class="priority">
+          <div class="priority-side"><span class="eyebrow">Prioridade nº 2</span><br><span class="tag neutral">Semana 1</span></div>
+          <div>
+            <h4>Reorganizar os destaques</h4>
+            <p><strong>O que observamos:</strong> os 7 destaques cobrem apresentação e resultado, mas não financiamento, imóvel sob encomenda nem contato — serviços que já existem no site.</p>
+            <p><strong>O que isso custa:</strong> quem ainda está avaliando empresas precisa sair do Instagram para descobrir o que a Germano Holanda faz.</p>
+            <p><strong>O que fazer e quando:</strong> montar a sequência de 5 destaques da página 04 na Semana 1, mantendo os atuais como secundários.</p>
+          </div>
+        </div>
+
+        <div class="priority">
+          <div class="priority-side"><span class="eyebrow">Prioridade nº 3</span><br><span class="tag neutral">Semanas 1 a 4</span></div>
+          <div>
+            <h4>Redistribuir o conteúdo do feed</h4>
+            <p><strong>O que observamos:</strong> nos 9 posts analisados, datas comemorativas e conteúdo institucional ocupam parcela relevante, e não há prova social de cliente nem explicação dos serviços.</p>
+            <p><strong>O que isso custa:</strong> a autoridade que a empresa realmente tem não fica evidente para quem chegou agora.</p>
+            <p><strong>O que fazer e quando:</strong> seguir o calendário de 12 posts, que prioriza autoridade, prova de resultado e serviços explicados.</p>
+          </div>
+        </div>
+
+        <div class="priority">
+          <div class="priority-side"><span class="eyebrow">Prioridade nº 4</span><br><span class="tag amber">Prazo maior</span></div>
+          <div>
+            <h4>Revisar o site no celular</h4>
+            <p><strong>O que observamos:</strong> responsividade inconsistente, cards cortados, excesso de elementos no topo e listas extensas no rodapé.</p>
+            <p><strong>O que isso custa:</strong> é o ponto onde a percepção de médio e alto padrão construída no Instagram se perde.</p>
+            <p><strong>O que fazer e quando:</strong> é trabalho técnico e não depende do calendário de posts. Detalhado na página 03, para começar em paralelo.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page" id="site" data-title="O site no celular" hidden>
+      <header class="page-heading">
+        <div class="eyebrow">03 · A continuação da primeira impressão</div>
+        <h1>Onde a jornada se perde.</h1>
+        <p>O que acontece quando alguém sai do Instagram e abre germanoholanda.com.br no celular.</p>
+      </header>
+
+      <article class="card searchable">
+        <h3>Por que esta página existe</h3>
+        <p>Boa parte dos acessos vindos de Instagram, Google e WhatsApp acontece pelo celular. Isso faz do site uma <strong>continuação direta</strong> da impressão construída nas redes. O Instagram comunica médio e alto padrão, com identidade visual controlada. O site no celular apresenta uma aparência mais simples e menos organizada em determinados pontos.</p>
+        <div class="note amber">
+          <strong>O ponto central:</strong> o site tem as funcionalidades certas. O problema não é o que ele faz, é como isso aparece na tela do celular.
+        </div>
+      </article>
+
+      <article class="card searchable">
+        <h3>3.1 O que foi observado</h3>
+        <div class="table-wrap">
+          <table class="wide">
+            <thead><tr><th>O que se vê</th><th>Onde acontece</th><th>O que isso causa</th></tr></thead>
+            <tbody>
+              <tr><td>Responsividade inconsistente</td><td>Ao longo da página</td><td>Algumas áreas acompanham a largura da tela, outras não. A página não tem uma adaptação uniforme ao celular.</td></tr>
+              <tr><td>Conteúdo cortado</td><td>Cards de imóveis e de bairros</td><td>Parte do conteúdo fica fora da tela, e o visitante não percebe que existe mais informação ali.</td></tr>
+              <tr><td>Excesso de elementos no topo</td><td>Primeira dobra</td><td>Nome da empresa, WhatsApp, ícones de redes sociais, dados da plataforma e navegação disputam espaço antes do conteúdo principal.</td></tr>
+              <tr><td>Busca de imóveis carregada</td><td>Área principal</td><td>A ferramenta existe e é o recurso mais importante do site, mas divide a tela com muitos elementos visuais ao mesmo tempo.</td></tr>
+              <tr><td>Espaçamento irregular</td><td>Entre seções</td><td>Algumas áreas têm grandes espaços vazios, outras concentram muita informação na mesma região.</td></tr>
+              <tr><td>Elementos flutuantes concorrendo</td><td>Botões fixos, logotipo, WhatsApp</td><td>Ocupam áreas próximas ao conteúdo e reduzem o espaço disponível para leitura.</td></tr>
+              <tr><td>Listas extensas no rodapé</td><td>Parte inferior</td><td>Tipos de imóveis, bairros, cidades, páginas institucionais, serviços e contato, com pouca diferenciação entre o principal e o secundário.</td></tr>
+              <tr><td>Hierarquia visual pouco definida</td><td>Determinadas seções</td><td>Sem diferença clara entre o que é principal e o que é apoio, o visitante precisa ler tudo para achar o que quer.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card searchable">
+        <h3>3.2 O que o site já tem de bom</h3>
+        <p>A revisão é de apresentação, não de funcionalidade. O site já oferece:</p>
+        <div class="tag-row" style="margin-bottom:16px">
+          <span class="tag green">Busca de imóveis</span>
+          <span class="tag green">Imóvel sob encomenda</span>
+          <span class="tag green">Financiamento</span>
+          <span class="tag green">Cadastro de imóveis</span>
+          <span class="tag green">Contato direto</span>
+        </div>
+        <p>Essas funcionalidades são um ativo real e várias delas nem aparecem nos destaques do Instagram. O trabalho é deixá-las visíveis e confortáveis de usar no celular — não recriá-las.</p>
+      </article>
+
+      <article class="card searchable">
+        <h3>3.3 Por onde começar no site</h3>
+        <ol class="steps">
+          <li><strong>Limpar o topo.</strong> Deixar na primeira dobra apenas o logotipo, a navegação e a busca de imóveis. Tudo o mais desce.</li>
+          <li><strong>Corrigir os cortes laterais.</strong> Garantir que nenhum card de imóvel ou de bairro ultrapasse a largura da tela.</li>
+          <li><strong>Padronizar o espaçamento entre seções</strong>, para a página ganhar ritmo de leitura.</li>
+          <li><strong>Reduzir os elementos flutuantes a um só</strong>: o WhatsApp. Os demais viram conteúdo dentro da página.</li>
+          <li><strong>Encolher o rodapé no celular</strong>, agrupando as listas em blocos que abrem ao toque em vez de aparecerem todos abertos.</li>
+          <li><strong>Revisar a hierarquia</strong>: em cada seção, uma informação principal com destaque claro e as demais em segundo plano.</li>
+        </ol>
+        <div class="note neutral">
+          Esta lista é de observação visual da experiência no celular, feita a partir da navegação pelo site. Não inclui medição de velocidade de carregamento, teste em múltiplos aparelhos nem análise do código — isso exigiria acesso técnico à plataforma.
+        </div>
+      </article>
+    </section>
+
+    <section class="page" id="estrategia" data-title="O que mudar no perfil" hidden>
+      <header class="page-heading">
+        <div class="eyebrow">04 · O que mudar no perfil</div>
+        <h1>Um caminho até a conversa.</h1>
+        <p>As mudanças da primeira semana e como os 12 posts do mês foram divididos.</p>
+      </header>
+
+      <article class="card searchable">
+        <div class="copy-heading">
+          <div>
+            <div class="eyebrow">4.1 · Trocar a bio (pode fazer hoje)</div>
+            <h3>Texto pronto para copiar e colar</h3>
+          </div>
+          <button class="btn" data-copy="bio-text">Copiar texto</button>
+        </div>
+        <div class="copy-area" id="bio-text">Imobiliária Germano Holanda
+Imóveis de médio e alto padrão em João Pessoa e Cabedelo
+Tradição e credibilidade desde 2006
+CRECI 640J
+👇 Fale com a gente
+[Link direto do WhatsApp ou do site]</div>
+        <p class="small" style="margin-top:14px">Mantém tudo o que a bio atual já dizia — especialização, região, tempo de mercado e CRECI — e troca "Visite nosso site" por uma ação clara. <strong>Igualmente importante:</strong> apontar o link direto para o destino final, sem a página intermediária que existe hoje.</p>
+      </article>
+
+      <article class="card searchable">
+        <div class="eyebrow">Semana 1 · Refazer os destaques</div>
+        <h3>Cinco destaques, nesta ordem</h3>
+        <p>Pense nos destaques como uma conversa: cada um responde a próxima dúvida de quem chegou, até a pessoa se sentir segura para chamar no WhatsApp.</p>
+
+        <div class="highlight-item">
+          <div class="highlight-number">01</div>
+          <div><h4>Comece Aqui</h4><p>Quem é a Germano Holanda, desde quando atua, onde atua e o CRECI. Aproveita o conteúdo do destaque "Quem somos" que já existe.</p></div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">02</div>
+          <div><h4>Como Funciona</h4><p>O processo de comprar e o processo de vender, passo a passo. É a informação que hoje só existe no site.</p></div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">03</div>
+          <div>
+            <h4>Financiamento e Sob Encomenda</h4>
+            <p>Os dois serviços que estão no site e não aparecem em destaque nenhum. Quem não tem o valor total do imóvel e quem não encontrou o que procura precisam achar isso aqui.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">04</div>
+          <div><h4>Negócios Fechados</h4><p>Reúne o que hoje está espalhado em "Vendido", "Clientes" e "Negócio Fechado". Um destaque só, mais forte que três fracos.</p></div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">05</div>
+          <div><h4>Fale com a Gente</h4><p>Como entrar em contato, o que informar na primeira mensagem e o horário de atendimento. Não existe destaque assim hoje.</p></div>
+        </div>
+
+        <div class="note neutral">
+          <strong>O que acontece com os 7 atuais:</strong> "Quem somos" vira o 01 e os três de resultado viram o 04. "Casas Cond.", "Dicas" e "Anuncie aqui" continuam existindo, só que <em>depois</em> dessa sequência — eles servem a quem já se interessou, não a quem está chegando.
+        </div>
+      </article>
+
+      <article class="card searchable">
+        <div class="eyebrow">4.2 · Os tipos de post do mês</div>
+        <h3>Quanto usar de cada tipo</h3>
+        <div class="mix-bar" role="img" aria-label="Mistura sugerida: 50% vídeos curtos, 33% carrosséis e 17% imagem">
+          <span style="width:50%"></span><span style="width:33%"></span><span style="width:17%"></span>
+        </div>
+        <div class="mix-key">
+          <div><strong>50%</strong><b>Vídeo curto (Reels)</b><p>Tour de imóvel, bairro e bastidor — é o que mostra o produto</p></div>
+          <div><strong>33%</strong><b>Carrossel</b><p>Para explicar os serviços que hoje só existem no site</p></div>
+          <div><strong>17%</strong><b>Imagem</b><p>Para autoridade e convite ao contato</p></div>
+        </div>
+        <div class="note neutral">
+          <strong>Por que 50% de vídeo e não os 40% habituais:</strong> imóvel se vende mostrando. Tour de apartamento e guia de bairro só funcionam em vídeo, e é o formato que o Instagram mais entrega para quem ainda não segue o perfil. <strong>Como ficou na prática:</strong> o calendário tem 6 vídeos curtos, 4 carrosséis e 2 imagens — exatamente a proporção recomendada.
+        </div>
+      </article>
+
+      <article class="card searchable">
+        <div class="eyebrow">Sobre o visual deste material</div>
+        <h3>As cores e letras usadas aqui</h3>
+        <p>O material usa o preto e o dourado da marca. O dourado dos textos e botões foi escurecido de propósito: o dourado claro do logotipo não tem contraste suficiente sobre fundo branco e ficaria ilegível para quem lê no celular ou tem baixa visão. O dourado original continua aparecendo nos elementos decorativos, onde a leitura não depende dele.</p>
+        <div class="tag-row">
+          <span class="tag">Dourado de leitura #8C6F17</span>
+          <span class="tag">Dourado da marca #BA962C</span>
+          <span class="tag">Dourado claro #E7CA74</span>
+          <span class="tag neutral">Grafite #2F2D27</span>
+          <span class="tag neutral">Fundo #FAF9F5</span>
+        </div>
+        <p class="small" style="margin-top:14px">As letras são uma aproximação escolhida por serem fáceis de ler, não as fontes oficiais da marca.</p>
+      </article>
+    </section>
+
+    <section class="page" id="calendario" data-title="Calendário de posts" hidden>
+      <header class="page-heading">
+        <div class="eyebrow">05 · Calendário do mês</div>
+        <h1>12 posts. Um mês inteiro pronto.</h1>
+        <p>Em cada post você encontra: o tipo, o objetivo, a frase de abertura, como gravar ou montar, a legenda completa para copiar e o que pedir no final.</p>
+      </header>
+
+      <article class="card searchable">
+        <div class="execution-row">
+          <div><h3 style="margin-bottom:4px">Acompanhe o que já foi feito</h3><p class="small">Abra cada post e marque em que pé ele está.</p></div>
+          <span class="tag" id="published-count">0 de 12 publicados</span>
+        </div>
+        <div class="progress-shell" role="progressbar" aria-label="Posts já publicados" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="publication-progress">
+          <div class="progress-fill" id="publication-fill"></div>
+        </div>
+        <p class="small">Essas marcações ficam salvas só neste computador ou celular. Elas não mexem no seu Instagram.</p>
+      </article>
+
+      <div class="filters">
+        <div class="filter-group" aria-label="Ver por semana">
+          <button class="filter active" data-week="all" aria-pressed="true">Todas</button>
+          <button class="filter" data-week="1" aria-pressed="false">Semana 1</button>
+          <button class="filter" data-week="2" aria-pressed="false">Semana 2</button>
+          <button class="filter" data-week="3" aria-pressed="false">Semana 3</button>
+          <button class="filter" data-week="4" aria-pressed="false">Semana 4</button>
+        </div>
+        <div class="filter-group">
+          <select id="format-filter" aria-label="Ver por tipo de post">
+            <option value="all">Todos os tipos</option>
+            <option value="Reels">Vídeo curto (Reels)</option>
+            <option value="Carrossel">Carrossel</option>
+            <option value="Imagem">Imagem</option>
+          </select>
+          <button class="btn" id="expand-posts">Abrir todos</button>
+          <button class="btn" id="collapse-posts">Fechar todos</button>
+        </div>
+      </div>
+
+      <div id="posts-container"></div>
+      <div class="empty" id="posts-empty" hidden>Nenhum post com esses filtros.</div>
+    </section>
+
+    <section class="page" id="metricas" data-title="Números para acompanhar" hidden>
+      <header class="page-heading">
+        <div class="eyebrow">06 · Números para acompanhar</div>
+        <h1>Acompanhar para decidir.</h1>
+        <p>O que anotar toda semana para saber se o plano está funcionando.</p>
+      </header>
+
+      <article class="card searchable">
+        <h3>Este primeiro mês é o seu ponto de partida</h3>
+        <p>O perfil tem 6.185 publicações, mas <strong>não existe um histórico organizado desses números por semana</strong>. Os primeiros 30 dias servem para descobrir o normal da casa. É com eles que todos os próximos meses vão ser comparados. Anote uma vez por semana:</p>
+        <div class="table-wrap">
+          <table class="wide">
+            <thead><tr><th>O que acompanhar</th><th>Onde ver o número</th><th>Onde prestar atenção</th><th>Por que isso importa</th></tr></thead>
+            <tbody>
+              <tr><td>Salvamentos</td><td>No painel do Instagram, dentro de cada post</td><td>Principalmente nos carrosséis que explicam serviços</td><td>Quem salva está pesquisando e quer voltar depois — é o comportamento de quem compra imóvel.</td></tr>
+              <tr><td>Compartilhamentos</td><td>No painel do Instagram, dentro de cada post</td><td>Principalmente nos tours de imóvel e guias de bairro</td><td>Decisão de imóvel é familiar. Quando alguém envia o post para o cônjuge, a conversa começou.</td></tr>
+              <tr><td>Comentários de quem quer comprar ou vender</td><td>Nas notificações do Instagram</td><td>Contar só os comentários com intenção real, ignorando emojis soltos</td><td>Mostra quais bairros e faixas de preço despertam interesse.</td></tr>
+              <tr><td>Cliques no link da bio</td><td>No painel do Instagram</td><td>Total do mês</td><td>Mostra quantas pessoas o perfil realmente levou até o site. É o número que deve subir depois da troca da bio.</td></tr>
+              <tr><td>Contatos no WhatsApp</td><td>Contando as conversas novas</td><td>As mensagens que começam com "vi no Instagram"</td><td>Mostra quantas pessoas o Instagram trouxe de fato.</td></tr>
+              <tr><td>Visitas agendadas</td><td>Na agenda dos corretores</td><td>Quantas conversas viraram visita marcada</td><td>É o resultado final: o retorno de todo esse trabalho.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card searchable">
+        <div class="section-header">
+          <div><h3 style="margin-bottom:6px">Anote aqui toda semana</h3><p>Preencha só o que você conseguir contar. Campo em branco quer dizer que o dado não foi anotado.</p></div>
+          <button class="btn tracker-tools" id="export-data">Baixar planilha</button>
+        </div>
+        <div class="table-wrap">
+          <table class="medium" id="tracking-table">
+            <thead><tr><th>O que acompanhar</th><th>Semana 1</th><th>Semana 2</th><th>Semana 3</th><th>Semana 4</th><th>Total anotado</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="note neutral">
+          Anote o resultado de cada semana separadamente, sem somar com o da semana anterior. A última coluna já faz a soma sozinha.
+        </div>
+        <p class="small" id="save-status" role="status">O que você digita fica salvo só neste computador ou celular. Baixe a planilha para guardar uma cópia.</p>
+      </article>
+
+      <div class="grid three grid-spaced searchable">
+        <article class="card stat"><span class="stat-label">Contatos no WhatsApp</span><strong class="stat-value" id="lead-total">Não informado</strong><span class="stat-note">Soma das semanas preenchidas</span></article>
+        <article class="card stat"><span class="stat-label">Visitas agendadas</span><strong class="stat-value" id="booking-total">Não informado</strong><span class="stat-note">Soma das semanas preenchidas</span></article>
+        <article class="card stat"><span class="stat-label">Quantos contatos viraram visita</span><strong class="stat-value" id="conversion-total">Não calculada</strong><span class="stat-note">Só entram as semanas em que os dois números foram preenchidos. Não dá para saber de onde veio cada contato.</span></article>
+      </div>
+
+      <article class="card searchable">
+        <h3>Anotações do mês</h3>
+        <p class="small">Escreva aqui as dúvidas que mais aparecem, quais bairros são mais procurados e o que mudar no próximo mês.</p>
+        <label for="tracking-notes" class="small">Suas anotações</label>
+        <textarea class="notes-area" id="tracking-notes" placeholder="Escreva aqui o que observou no mês..."></textarea>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span>Imobiliária Germano Holanda · Plano de crescimento para o Instagram</span>
+      <span>João Pessoa e Cabedelo, PB · CRECI 640J · 30 dias</span>
+    </footer>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+"use strict";
+
+const posts = [
+{
+  id:1, week:1, day:"Segunda-feira", type:"Reels",
+  format:"Vídeo curto (Reels)", pillar:"Criar proximidade",
+  hookLabel:"Frase de abertura (escrita na tela e falada nos 3 primeiros segundos)",
+  hook:"Estamos em João Pessoa desde 2006. Isso muda alguma coisa na hora de comprar um imóvel?",
+  visual:"Um dos sócios ou corretores falando para a câmera, enquadrado da cintura para cima, dentro da imobiliária. Fundo com o logotipo discreto. Legenda em destaque nos primeiros segundos.",
+  caption:`Muda, sim. E não é sobre tempo de casa.
+
+É sobre já ter visto o mercado de João Pessoa e Cabedelo subir, cair e se transformar. Sobre saber por que um apartamento no Cabo Branco não se avalia igual a um no Bessa. Sobre conhecer a documentação que trava uma venda antes de ela travar.
+
+Desde 2006 fazendo intermediação de imóveis de médio e alto padrão nesta região. CRECI 640J.
+
+👇 Comente aqui: qual bairro você está considerando? A gente responde o que sabe sobre cada um.`,
+  cta:"Peça que a pessoa comente qual bairro está considerando.",
+  objective:"Transformar o tempo de mercado, que hoje é só uma linha na bio, em argumento concreto — e abrir conversa."
+},
+{
+  id:2, week:1, day:"Quarta-feira", type:"Carrossel",
+  format:"Carrossel com 5 ou 6 imagens para arrastar", pillar:"Mostrar conhecimento",
+  hookLabel:"Frase de abertura (primeira imagem)",
+  hook:"O que a gente confere em um imóvel antes de colocar ele à venda.",
+  visual:"Todas as imagens no padrão preto e dourado da marca, com pouco texto por tela. Use fotos reais de documentos desfocados ou ilustrações simples — nada de banco de imagens genérico.",
+  caption:`Nem todo imóvel anunciado está pronto para ser vendido. Antes de entrar na nossa carteira, a gente verifica:
+
+1️⃣ Matrícula atualizada e sem pendências que travem o financiamento;
+2️⃣ Situação do IPTU e do condomínio;
+3️⃣ Documentação do proprietário e de quem mais precisa assinar;
+4️⃣ Avaliação de mercado compatível com o bairro e o momento;
+5️⃣ Condições reais do imóvel, verificadas pessoalmente.
+
+Isso evita o pior cenário: o comprador se apaixonar, dar entrada e a venda cair na análise do banco.
+
+💾 Salve este post se você pretende vender um imóvel este ano.`,
+  cta:"Peça para salvar o post e enviar para quem pretende vender.",
+  objective:"Mostrar domínio técnico do processo e atrair proprietários — o lado da captação, que hoje quase não aparece no feed."
+},
+{
+  id:3, week:1, day:"Sexta-feira", type:"Imagem",
+  format:"Imagem única reunindo imprensa e evento do setor", pillar:"Mostrar resultados",
+  hookLabel:"Frase de abertura (texto sobre a imagem)",
+  hook:"Onde a Germano Holanda esteve neste ano.",
+  visual:"Uma montagem sóbria, no preto e dourado, com a foto do evento do setor de um lado e a matéria de imprensa do outro. Sem excesso de elementos — a peça precisa parecer institucional, não promocional.",
+  caption:`Participar do mercado imobiliário da Paraíba é mais do que anunciar imóveis.
+
+É estar nos eventos onde o setor discute para onde João Pessoa e Cabedelo estão crescendo. É ser procurada pela imprensa quando o assunto é mercado imobiliário na região.
+
+Reunimos aqui, em um só lugar, onde estivemos — porque essas coisas costumam passar batido no meio do feed.
+
+Quem acompanha o mercado de perto recomenda melhor. E é isso que a gente faz desde 2006.`,
+  cta:"Nenhum pedido direto. Este post existe para construir autoridade.",
+  objective:"Reunir em uma peça só a autoridade que hoje está dispersa entre publicações isoladas."
+},
+{
+  id:4, week:2, day:"Segunda-feira", type:"Reels",
+  format:"Vídeo curto (Reels)", pillar:"Mostrar conhecimento",
+  hookLabel:"Frase de abertura (primeiros segundos do vídeo)",
+  hook:"Você não precisa ter o valor total do imóvel. Precisa ter isso aqui.",
+  visual:"Corretor falando direto para a câmera, ritmo rápido, com os três requisitos aparecendo escritos na tela conforme são ditos.",
+  caption:`A maior parte das pessoas que compra imóvel não paga à vista. E mesmo assim muita gente adia a procura achando que ainda não dá.
+
+O que o banco realmente olha:
+
+🔹 Renda comprovada compatível com a parcela;
+🔹 Nome sem restrição;
+🔹 Entrada, que costuma ficar em torno de 20% do valor.
+
+A partir daí, o financiamento é um caminho normal — e a gente acompanha o processo do começo ao fim, junto com o banco.
+
+O financiamento é um dos serviços que já oferecemos, e a gente explica sem compromisso.
+
+📲 Chame no WhatsApp pelo link da bio e conte a sua situação.`,
+  cta:"Convide a chamar no WhatsApp para entender a própria situação.",
+  objective:"Levar para o Instagram um serviço que hoje só existe no site, e tirar o freio de quem acha que não pode comprar."
+},
+{
+  id:5, week:2, day:"Quarta-feira", type:"Carrossel",
+  format:"Carrossel explicando um serviço", pillar:"Mostrar conhecimento",
+  hookLabel:"Frase de abertura (primeira imagem)",
+  hook:"Não achou o imóvel que queria? Ele pode não estar anunciado.",
+  visual:"Carrossel no padrão da marca, com uma tela por etapa. Última tela com o convite para o contato.",
+  caption:`Existe uma parte do mercado que não aparece em portal nenhum: proprietários que vendem, mas não anunciam.
+
+O serviço de imóvel sob encomenda funciona assim:
+
+1. Você descreve o que procura — bairro, metragem, quartos, vaga, faixa de valor;
+2. A gente busca dentro da nossa carteira e da nossa rede de contatos na região;
+3. Apresentamos apenas o que realmente se encaixa no que você pediu;
+4. Você visita só o que faz sentido, sem perder sábados inteiros.
+
+É especialmente útil para quem procura em Cabo Branco, Manaíra, Tambaú e Bessa, onde as boas oportunidades saem rápido.
+
+💾 Salve este post e me chame no WhatsApp com o que você procura.`,
+  cta:"Peça para salvar e chamar no WhatsApp descrevendo o imóvel procurado.",
+  objective:"Divulgar o serviço de imóvel sob encomenda, que existe no site e não aparece em nenhum destaque."
+},
+{
+  id:6, week:2, day:"Sexta-feira", type:"Reels",
+  format:"Vídeo curto (Reels) — tour de imóvel", pillar:"Criar proximidade",
+  hookLabel:"Frase de abertura (primeiros segundos do vídeo)",
+  hook:"3 detalhes deste apartamento que a foto não mostra.",
+  visual:"Gravação vertical, movimento lento e contínuo, luz natural do fim da tarde. Sem música alta — deixe o som ambiente. Mostre varanda, vista e um detalhe de acabamento. Nunca grave com o imóvel bagunçado.",
+  caption:`Foto de imóvel mostra o cômodo. Vídeo mostra como é estar nele.
+
+Neste apartamento, três coisas só aparecem visitando: a luz que entra no fim da tarde, o pé-direito da sala e o silêncio da varanda, mesmo estando perto de tudo.
+
+📍 [Bairro] · [metragem] · [quartos e vagas]
+💰 Valor sob consulta
+
+Imóveis de médio e alto padrão em João Pessoa e Cabedelo. CRECI 640J.
+
+📲 Quer visitar? Chame no WhatsApp pelo link da bio.`,
+  cta:"Convide a chamar no WhatsApp para agendar a visita.",
+  objective:"Mostrar o produto no formato que o Instagram mais entrega para quem ainda não segue o perfil."
+},
+{
+  id:7, week:3, day:"Segunda-feira", type:"Reels",
+  format:"Vídeo curto (Reels) — entrega de chave", pillar:"Mostrar resultados",
+  hookLabel:"Frase de abertura (primeiros segundos do vídeo)",
+  hook:"A parte do trabalho que quase ninguém posta: a hora da chave.",
+  visual:"Registro real de uma entrega de chave, com autorização por escrito do cliente. Se ele não quiser aparecer, grave só as mãos, a chave e a porta abrindo. Nunca publique rosto sem autorização assinada.",
+  caption:`Entre a primeira mensagem e este momento existem visitas, propostas, documentação, banco e uma boa dose de ansiedade.
+
+A gente acompanha tudo isso. E é por isso que a entrega da chave é a parte favorita do trabalho de quem está aqui desde 2006.
+
+Obrigado pela confiança. 🔑
+
+Se você também está começando essa busca, a conversa pode começar hoje: link na bio.`,
+  cta:"Convide quem está começando a busca a chamar no WhatsApp.",
+  objective:"Trazer prova social real para o feed — o tipo de conteúdo que não aparece nos 9 últimos posts."
+},
+{
+  id:8, week:3, day:"Quarta-feira", type:"Carrossel",
+  format:"Carrossel de bastidor de uma venda", pillar:"Mostrar resultados",
+  hookLabel:"Frase de abertura (primeira imagem)",
+  hook:"Vendido. O que aconteceu antes da placa sair.",
+  visual:"Carrossel com a linha do tempo da venda, uma etapa por tela. Use dados reais de um negócio já concluído, com autorização, e sem identificar as partes envolvidas.",
+  caption:`Publicar "VENDIDO" é fácil. Mostrar o caminho é mais útil para quem está decidindo.
+
+Neste caso:
+
+📌 O imóvel estava anunciado por outro caminho havia meses, sem propostas;
+📌 Revisamos o valor com base em vendas recentes do mesmo bairro;
+📌 Refizemos as fotos e a descrição;
+📌 Levamos compradores já qualificados, com financiamento pré-analisado;
+📌 Proposta aceita e documentação acompanhada até a assinatura.
+
+Não é sorte. É método.
+
+Pretende vender seu imóvel? Me chame no WhatsApp e a gente avalia sem compromisso.`,
+  cta:"Convide proprietários a pedir uma avaliação pelo WhatsApp.",
+  objective:"Transformar os destaques de 'Vendido' em argumento, mostrando o processo e não só o resultado."
+},
+{
+  id:9, week:3, day:"Sexta-feira", type:"Reels",
+  format:"Vídeo curto (Reels)", pillar:"Mostrar conhecimento",
+  hookLabel:"Frase de abertura (primeiros segundos do vídeo)",
+  hook:"4 erros que travam a venda de um imóvel em João Pessoa.",
+  visual:"Corretor falando para a câmera, com cada erro aparecendo escrito na tela. Ritmo direto, sem enrolação nos primeiros segundos.",
+  caption:`Depois de quase 20 anos intermediando vendas nesta região, os mesmos quatro erros aparecem repetidamente:
+
+1️⃣ Preço baseado no que o vizinho pediu, não no que o mercado pagou;
+2️⃣ Fotos tiradas às pressas, com o imóvel fora de ordem;
+3️⃣ Documentação deixada para depois — e que trava tudo na hora do financiamento;
+4️⃣ Anunciar em muitos lugares ao mesmo tempo, sem ninguém responsável pelo processo.
+
+Os três primeiros fazem o imóvel encalhar. O quarto faz ele parecer desesperado.
+
+💾 Salve este post. E se quiser uma avaliação do seu imóvel, chame no WhatsApp pelo link da bio.`,
+  cta:"Peça para salvar e convide proprietários a pedir avaliação.",
+  objective:"Atrair o lado da captação com conteúdo útil, e posicionar a empresa como quem entende o mercado local."
+},
+{
+  id:10, week:4, day:"Segunda-feira", type:"Reels",
+  format:"Vídeo curto (Reels) — guia de bairro", pillar:"Mostrar conhecimento",
+  hookLabel:"Frase de abertura (primeiros segundos do vídeo)",
+  hook:"Cabo Branco, Manaíra ou Bessa: qual combina com a sua rotina?",
+  visual:"Imagens de rua de cada bairro, gravadas de dia, com o nome aparecendo na tela. Narração em off comparando os três de forma honesta — inclusive os pontos fracos de cada um.",
+  caption:`Não existe bairro melhor. Existe o que combina com a sua rotina.
+
+🌊 Cabo Branco — orla, valorização consolidada, perfil mais residencial. Silencioso, porém mais distante de alguns serviços.
+
+🏙️ Manaíra — tudo por perto: comércio, restaurantes, escolas. Em compensação, movimento e trânsito maiores.
+
+🌳 Bessa — mais espaço, ruas largas, perfil familiar. Um pouco mais afastado do centro comercial.
+
+Nos três a gente trabalha com imóveis de médio e alto padrão, e a escolha muda conforme quem vai morar.
+
+👇 Comente qual dos três combina mais com você — e por quê.`,
+  cta:"Peça que comentem qual bairro combina mais com a rotina de cada um.",
+  objective:"Gerar alcance com conteúdo local e útil, e descobrir nos comentários quais bairros o público procura."
+},
+{
+  id:11, week:4, day:"Quarta-feira", type:"Carrossel",
+  format:"Carrossel sobre o atendimento", pillar:"Convidar para o contato",
+  hookLabel:"Frase de abertura (primeira imagem)",
+  hook:"Como é falar com a Germano Holanda.",
+  visual:"Carrossel simples, no padrão da marca, mostrando a conversa como um processo. Última tela com o convite e o horário de atendimento.",
+  caption:`Muita gente adia a primeira mensagem sem saber o que vai encontrar do outro lado. Então: é assim.
+
+O que a gente pergunta:
+• Você quer comprar, vender ou anunciar?
+• Qual região e qual faixa de valor?
+• Vai usar financiamento?
+
+O que você recebe:
+• Opções que realmente encaixam no que você pediu, e não a carteira inteira;
+• Informação sobre documentação e financiamento antes de visitar;
+• Acompanhamento até a assinatura.
+
+Sem compromisso e sem insistência. Se não for o momento, a gente entende.
+
+📲 Link na bio para começar a conversa.`,
+  cta:"Convide a iniciar a conversa pelo link da bio.",
+  objective:"Tirar o medo do primeiro contato — a objeção mais comum de quem ainda está avaliando empresas."
+},
+{
+  id:12, week:4, day:"Sexta-feira", type:"Imagem",
+  format:"Imagem de encerramento do mês", pillar:"Convite final do mês",
+  hookLabel:"Frase de abertura (texto sobre a imagem)",
+  hook:"Desde 2006 aproximando pessoas dos imóveis certos em João Pessoa e Cabedelo.",
+  visual:"Peça sóbria no preto e dourado, com o logotipo e o CRECI visíveis. Sem excesso de texto — esta é uma peça de marca.",
+  caption:`Durante este mês mostramos como avaliamos um imóvel, como funciona o financiamento, o que é o imóvel sob encomenda, o bastidor de uma venda e como é falar com a gente.
+
+Tudo isso continua disponível nos destaques do perfil, organizados na ordem em que as dúvidas costumam aparecer.
+
+Se você está comprando, vendendo ou ainda pesquisando, a conversa pode começar hoje — sem compromisso.
+
+Imobiliária Germano Holanda · CRECI 640J
+João Pessoa e Cabedelo, PB
+
+📲 Link na bio.`,
+  cta:"Convide a falar pelo link da bio.",
+  objective:"Fechar o mês, apontar para os destaques reorganizados e recolher o contato de quem amadureceu a decisão."
+}
+];
+
+const weeks = {
+  1:"Deixar claro quem é a Germano Holanda e o que ela resolve",
+  2:"Levar para o Instagram os serviços que só existem no site",
+  3:"Provar resultado com quem já comprou e vendeu",
+  4:"Conhecer a região e começar a conversa"
+};
+
+const metrics = [
+  {key:"saves",name:"Salvamentos"},
+  {key:"shares",name:"Compartilhamentos"},
+  {key:"comments",name:"Comentários com intenção"},
+  {key:"clicks",name:"Cliques no link da bio"},
+  {key:"leads",name:"Contatos no WhatsApp"},
+  {key:"visits",name:"Visitas agendadas"}
+];
+
+const storageKey = "germano-holanda-dashboard-ciclo-30-dias-v1";
+let state = {status:{},metrics:{},notes:""};
+let storageAvailable = true;
+
+try {
+  const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+  if(saved && typeof saved === "object") {
+    if(saved.status && typeof saved.status === "object") state.status = saved.status;
+    if(saved.metrics && typeof saved.metrics === "object") state.metrics = saved.metrics;
+    if(typeof saved.notes === "string") state.notes = saved.notes;
+  }
+} catch(error) {
+  storageAvailable = false;
+}
+
+const $ = selector => document.querySelector(selector);
+const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
+}
+
+function normalize(value) {
+  return String(value).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+}
+
+let toastTimer;
+function notify(message) {
+  clearTimeout(toastTimer);
+  $("#toast").textContent = message;
+  $("#toast").hidden = false;
+  toastTimer = setTimeout(() => $("#toast").hidden = true, 3500);
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(storageKey,JSON.stringify(state));
+    storageAvailable = true;
+    $("#save-status").textContent = "Registros salvos neste navegador. Baixe a planilha para guardar uma cópia.";
+  } catch(error) {
+    storageAvailable = false;
+    $("#save-status").textContent = "O navegador bloqueou o salvamento local. Os registros permanecem nesta página enquanto ela estiver aberta; baixe a planilha antes de sair.";
+    notify("Salvamento local indisponível. Baixe os registros antes de fechar.");
+  }
+}
+
+function buildPosts() {
+  let output = "";
+  for(let week=1; week<=4; week++) {
+    output += `<div class="week-group" data-week-group="${week}">
+      <header class="week-header">
+        <div class="eyebrow">Semana ${week}</div>
+        <h3>${escapeHTML(weeks[week])}</h3>
+      </header>`;
+
+    posts.filter(post => post.week === week).forEach(post => {
+      const selected = ["Planejado","Em produção","Pronto","Publicado"].includes(state.status[post.id])
+        ? state.status[post.id] : "Planejado";
+
+      output += `<details class="post searchable" id="post-${post.id}" data-post-id="${post.id}" data-week="${post.week}" data-format="${post.type}">
+        <summary>
+          <div class="post-number">${String(post.id).padStart(2,"0")}</div>
+          <div class="post-summary">
+            <div class="post-topline">
+              <span class="post-day">Post ${post.id} · ${post.day}</span>
+              <span class="tag">${escapeHTML(post.type)}</span>
+              <span class="tag neutral">${escapeHTML(post.pillar)}</span>
+            </div>
+            <h4>${escapeHTML(post.hook)}</h4>
+          </div>
+          <span class="detail-label">Ver tudo</span>
+        </summary>
+        <div class="post-body">
+          <div class="post-meta">
+            <div class="meta-box"><span class="meta-label">Tipo de post</span><p>${escapeHTML(post.format)}</p></div>
+            <div class="meta-box"><span class="meta-label">Objetivo do post</span><p>${escapeHTML(post.pillar)}</p></div>
+          </div>
+          <span class="meta-label">${escapeHTML(post.hookLabel)}</span>
+          <p>${escapeHTML(post.hook)}</p>
+          <span class="meta-label">Como gravar ou montar</span>
+          <p>${escapeHTML(post.visual)}</p>
+          <div class="copy-heading" style="margin-top:23px">
+            <h4>Legenda completa</h4>
+            <button class="btn" data-copy="caption-${post.id}">Copiar legenda</button>
+          </div>
+          <div class="post-caption" id="caption-${post.id}">${escapeHTML(post.caption)}</div>
+          <div class="post-footer">
+            <div><span class="meta-label">O que pedir no final</span><p>${escapeHTML(post.cta)}</p></div>
+            <div><span class="meta-label">Para que serve este post</span><p>${escapeHTML(post.objective)}</p></div>
+          </div>
+          <div class="post-status">
+            <label for="status-${post.id}">Em que pé está</label>
+            <select id="status-${post.id}" data-status="${post.id}">
+              ${["Planejado","Em produção","Pronto","Publicado"].map(value =>
+                `<option${value===selected?" selected":""}>${value}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+      </details>`;
+    });
+    output += "</div>";
+  }
+  $("#posts-container").innerHTML = output;
+}
+
+function updateProgress() {
+  const count = posts.filter(post => state.status[post.id] === "Publicado").length;
+  $("#published-count").textContent = `${count} de 12 publicados`;
+  $("#publication-fill").style.width = `${count / posts.length * 100}%`;
+  $("#publication-progress").setAttribute("aria-valuenow",String(count));
+}
+
+buildPosts();
+updateProgress();
+
+let currentPage = "visao";
+let currentWeek = "all";
+let currentFormat = "all";
+let searchQuery = "";
+let beforeSearchOpen = null;
+
+const searchBlocks = $$(".searchable");
+const searchIndex = new Map(searchBlocks.map(block => [
+  block, normalize(block.textContent)
+]));
+
+function applyCalendarFilters() {
+  let visible = 0;
+
+  $$(".post").forEach(card => {
+    const weekMatches = currentWeek === "all" || card.dataset.week === currentWeek;
+    const formatMatches = currentFormat === "all" || card.dataset.format === currentFormat;
+    card.hidden = !(weekMatches && formatMatches);
+    if(!card.hidden) visible++;
+  });
+
+  $$(".week-group").forEach(group => {
+    group.hidden = !Array.from(group.querySelectorAll(".post")).some(post => !post.hidden);
+  });
+
+  $("#posts-empty").hidden = visible > 0;
+}
+
+function closeMenu() {
+  document.body.classList.remove("menu-open");
+  $(".mobile-menu").setAttribute("aria-expanded","false");
+}
+
+function updateNavigation() {
+  $$(".nav a").forEach(link => {
+    const active = link.dataset.page === currentPage;
+    link.classList.toggle("active",active);
+    if(active) link.setAttribute("aria-current","page");
+    else link.removeAttribute("aria-current");
+  });
+  $("#current-page").textContent = "/ " + document.getElementById(currentPage).dataset.title;
+}
+
+function renderView() {
+  searchBlocks.forEach(block => block.hidden = false);
+  $$(".week-group").forEach(group => group.hidden = false);
+  $("#search-empty").hidden = true;
+
+  if(searchQuery) {
+    let matchingBlocks = 0;
+
+    searchBlocks.forEach(block => {
+      const matches = searchIndex.get(block).includes(searchQuery);
+      block.hidden = !matches;
+      if(matches) {
+        matchingBlocks++;
+        if(block.matches("details")) block.open = true;
+      }
+    });
+
+    $$(".week-group").forEach(group => {
+      group.hidden = !Array.from(group.querySelectorAll(".post")).some(post => !post.hidden);
+    });
+
+    $$(".page").forEach(page => {
+      page.hidden = !Array.from(page.querySelectorAll(".searchable")).some(block => !block.hidden);
+    });
+
+    $("#search-status").hidden = false;
+    $("#search-status").textContent = `${matchingBlocks} trechos encontrados para “${$("#global-search").value.trim()}”. Apague a busca para voltar ao normal.`;
+    $("#search-empty").hidden = matchingBlocks !== 0;
+    $("#posts-empty").hidden = true;
+    $(".filters").hidden = true;
+  } else {
+    $$(".page").forEach(page => page.hidden = page.id !== currentPage);
+    $("#search-status").hidden = true;
+    $(".filters").hidden = false;
+    applyCalendarFilters();
+  }
+  updateNavigation();
+}
+
+function navigate(page, updateHash=true) {
+  if(!document.getElementById(page)?.classList.contains("page")) page = "visao";
+  currentPage = page;
+
+  if(searchQuery) restoreOpenState();
+  searchQuery = "";
+  $("#global-search").value = "";
+
+  if(updateHash) {
+    try { history.replaceState(null,"","#"+page); } catch(error) {}
+  }
+
+  renderView();
+  closeMenu();
+  window.scrollTo({top:0,behavior:"auto"});
+}
+
+function restoreOpenState() {
+  if(beforeSearchOpen) {
+    $$(".post").forEach(post => post.open = beforeSearchOpen.has(post.id));
+    beforeSearchOpen = null;
+  }
+}
+
+$$(".nav a").forEach(link => {
+  link.addEventListener("click",event => {
+    event.preventDefault();
+    navigate(link.dataset.page);
+  });
+});
+
+$(".mobile-menu").addEventListener("click",() => {
+  const isOpen = document.body.classList.toggle("menu-open");
+  $(".mobile-menu").setAttribute("aria-expanded",String(isOpen));
+});
+$(".scrim").addEventListener("click",closeMenu);
+document.addEventListener("keydown",event => {
+  if(event.key === "Escape") {
+    closeMenu();
+    if(document.activeElement === $("#global-search") && searchQuery) {
+      $("#global-search").value = "";
+      searchQuery = "";
+      restoreOpenState();
+      renderView();
+    }
+  }
+});
+
+$("#global-search").addEventListener("input",() => {
+  const nextQuery = normalize($("#global-search").value.trim());
+  if(!searchQuery && nextQuery) {
+    beforeSearchOpen = new Set($$(".post[open]").map(post => post.id));
+  }
+  if(searchQuery && !nextQuery) restoreOpenState();
+  searchQuery = nextQuery;
+  renderView();
+});
+
+$$("[data-week]").filter(element => element.matches("button")).forEach(button => {
+  button.addEventListener("click",() => {
+    currentWeek = button.dataset.week;
+    $$(".filter").forEach(item => {
+      const active = item === button;
+      item.classList.toggle("active",active);
+      item.setAttribute("aria-pressed",String(active));
+    });
+    applyCalendarFilters();
+  });
+});
+
+$("#format-filter").addEventListener("change",event => {
+  currentFormat = event.target.value;
+  applyCalendarFilters();
+});
+
+$("#expand-posts").addEventListener("click",() => {
+  $$(".post").filter(post => !post.hidden).forEach(post => post.open = true);
+});
+
+$("#collapse-posts").addEventListener("click",() => {
+  $$(".post").filter(post => !post.hidden).forEach(post => post.open = false);
+});
+
+document.addEventListener("change",event => {
+  const input = event.target;
+  if(input.matches("[data-status]")) {
+    state.status[input.dataset.status] = input.value;
+    saveState();
+    updateProgress();
+  }
+});
+
+async function copyText(text, target) {
+  try {
+    if(navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.top = "-1000px";
+      textarea.setAttribute("readonly","");
+      document.body.appendChild(textarea);
+      textarea.select();
+      const success = document.execCommand("copy");
+      textarea.remove();
+      if(!success) throw new Error("Clipboard unavailable");
+    }
+    notify("Texto copiado.");
+  } catch(error) {
+    const range = document.createRange();
+    range.selectNodeContents(target);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    notify("Texto selecionado. Use a opção Copiar do seu dispositivo.");
+  }
+}
+
+document.addEventListener("click",event => {
+  const button = event.target.closest("[data-copy]");
+  if(!button) return;
+  const target = document.getElementById(button.dataset.copy);
+  if(target) copyText(target.textContent,target);
+});
+
+function validValue(value) {
+  return value !== "" && value !== null && value !== undefined
+    && /^\d+$/.test(String(value))
+    && Number.isSafeInteger(Number(value));
+}
+
+function buildTracking() {
+  const tbody = $("#tracking-table tbody");
+  tbody.innerHTML = metrics.map(metric => {
+    let cells = "";
+    for(let week=1;week<=4;week++) {
+      const key = `${metric.key}-${week}`;
+      const value = validValue(state.metrics[key]) ? state.metrics[key] : "";
+      cells += `<td><input class="metric-input" type="number" min="0" step="1" inputmode="numeric" data-metric="${key}" value="${escapeHTML(value)}" placeholder="Sem dado" aria-label="${escapeHTML(metric.name)}, semana ${week}"></td>`;
+    }
+    return `<tr><td>${metric.name}</td>${cells}<td id="total-${metric.key}">Não informado</td></tr>`;
+  }).join("");
+}
+
+function metricTotal(key) {
+  const values = [1,2,3,4].map(week => state.metrics[`${key}-${week}`]).filter(validValue).map(Number);
+  return values.length ? values.reduce((sum,value) => sum+value,0) : null;
+}
+
+function formatNumber(value) {
+  return value === null ? "Não informado" : value.toLocaleString("pt-BR");
+}
+
+function updateTotals() {
+  metrics.forEach(metric => {
+    document.getElementById(`total-${metric.key}`).textContent = formatNumber(metricTotal(metric.key));
+  });
+  $("#lead-total").textContent = formatNumber(metricTotal("leads"));
+  $("#booking-total").textContent = formatNumber(metricTotal("visits"));
+
+  let leads=0,visits=0,pairs=0;
+  for(let week=1;week<=4;week++) {
+    const l=state.metrics[`leads-${week}`], v=state.metrics[`visits-${week}`];
+    if(validValue(l) && validValue(v)) {
+      leads += Number(l);
+      visits += Number(v);
+      pairs++;
+    }
+  }
+
+  $("#conversion-total").textContent = pairs && leads > 0
+    ? (visits/leads*100).toLocaleString("pt-BR",{maximumFractionDigits:1})+"%"
+    : "Não calculada";
+}
+
+buildTracking();
+updateTotals();
+
+$("#tracking-table").addEventListener("input",event => {
+  const input=event.target;
+  if(!input.matches("[data-metric]")) return;
+
+  if(input.validity.badInput || (input.value !== "" && !validValue(input.value))) {
+    input.setCustomValidity("Digite um número inteiro, de zero para cima.");
+    input.reportValidity();
+    return;
+  }
+
+  input.setCustomValidity("");
+  state.metrics[input.dataset.metric] = input.value;
+  updateTotals();
+  saveState();
+});
+
+$("#tracking-notes").value = state.notes;
+$("#tracking-notes").addEventListener("input",event => {
+  state.notes=event.target.value;
+  saveState();
+});
+
+if(!storageAvailable) {
+  $("#save-status").textContent = "Não foi possível salvar neste aparelho. Baixe a planilha antes de fechar a página.";
+}
+
+function csvCell(value) {
+  let text=String(value ?? "");
+  if(/^[=+\-@\t\r]/.test(text)) text="'"+text;
+  return '"'+text.replace(/"/g,'""')+'"';
+}
+
+$("#export-data").addEventListener("click",() => {
+  const rows=[["O que acompanhar","Semana 1","Semana 2","Semana 3","Semana 4","Total anotado"]];
+  metrics.forEach(metric => {
+    const values=[1,2,3,4].map(week => {
+      const value=state.metrics[`${metric.key}-${week}`];
+      return validValue(value) ? value : "";
+    });
+    rows.push([metric.name,...values,metricTotal(metric.key) ?? ""]);
+  });
+  rows.push([]);
+  rows.push(["Post","Semana","Dia","Tipo de post","Em que pé está"]);
+  posts.forEach(post => rows.push([
+    "Post "+post.id,post.week,post.day,post.format,state.status[post.id] || "Planejado"
+  ]));
+  rows.push([]);
+  rows.push(["Anotações",state.notes]);
+
+  const csv="\uFEFF"+rows.map(row => row.map(csvCell).join(";")).join("\r\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download="acompanhamento-germano-holanda.csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+});
+
+let printState=null;
+
+function preparePrint() {
+  if(printState) return;
+  const tracked=$$(".page,.searchable,.week-group,#posts-empty,#search-empty,.filters");
+  printState={
+    visibility:tracked.map(element => [element,element.hidden]),
+    open:$$(".post").map(element => [element,element.open])
+  };
+  tracked.forEach(element => element.hidden=false);
+  $("#posts-empty").hidden=true;
+  $("#search-empty").hidden=true;
+  $(".filters").hidden=true;
+  $$(".post").forEach(element => element.open=true);
+}
+
+function finishPrint() {
+  if(!printState) return;
+  printState.visibility.forEach(([element,hidden]) => element.hidden=hidden);
+  printState.open.forEach(([element,open]) => element.open=open);
+  printState=null;
+}
+
+window.addEventListener("beforeprint",preparePrint);
+window.addEventListener("afterprint",finishPrint);
+
+$("#print").addEventListener("click",() => {
+  preparePrint();
+  window.print();
+  setTimeout(finishPrint,1500);
+});
+
+window.addEventListener("hashchange",() => {
+  const hash=location.hash.slice(1);
+  if(document.getElementById(hash)?.classList.contains("page")) navigate(hash,false);
+});
+
+const initial=location.hash.slice(1);
+navigate(document.getElementById(initial)?.classList.contains("page") ? initial : "visao",false);
+</script>
+</body>
+</html>
